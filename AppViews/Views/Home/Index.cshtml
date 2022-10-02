@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Data.DomainClass.KhachHang>
+@{
+    Data.DomainClass.SanPham sanpham = new Data.DomainClass.SanPham();
+    decimal tongtien = 0;
+}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ 
+}
+<h2>Danh sách sản phẩm</h2>
+@using (Html.BeginForm("Index","Home",FormMethod.Get))
+    {
+    <p>
+        @Html.TextBox("text") <input type="submit" value="Tìm kiếm" />
+    </p>
+    }
+
+   
+<table style="width:100%">
+    <thead>
+        <th>Mã sản phẩm</th>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+        <hr />
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    { // @ để dùng code như C#
+            @foreach(var x in item.gioHangChiTiets)
+            {
+                <tr>
+                    <td>@x.SanPham.MaSP</td>
+                    <td>@x.SanPham.Ten</td>
+                    <td>@x.SanPham.Gia</td>
+                    <td>@x.SoLuong</td>
+                    <td>@(x.SoLuong*x.SanPham.Gia)</td>
+                    @(tongtien += x.SoLuong*x.SanPham.Gia)
+                </tr>
+            } 
+    }
+    </tbody>
+    
+</table>
+<th>Tổng tiền</th> : @ViewBag.tongtien</th>
+
